@@ -31,7 +31,9 @@ jobs:
           else
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
-      - if: steps.catalogue.outputs.changed == 'true'
+      - name: Validate the updated catalogue
+        id: validation
+        if: steps.catalogue.outputs.changed == 'true'
         run: |
           npm run lint
           npm run check:licenses
@@ -41,10 +43,11 @@ jobs:
           npx playwright install --with-deps chromium firefox webkit
           npm run test:e2e
       - name: Open a catalogue update for review
-        if: steps.catalogue.outputs.changed == 'true'
+        if: ${{ !cancelled() && steps.catalogue.outputs.changed == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
           BASE_BRANCH: ${{ github.event.repository.default_branch }}
+          CRAWL_VALIDATION: ${{ steps.validation.outcome }}
         run: |
           branch="automation/crawls-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           git switch -c "$branch"
@@ -57,11 +60,17 @@ jobs:
           node --input-type=module <<'NODE'
           import { writeFileSync } from 'node:fs';
           import { join } from 'node:path';
+          const passed = process.env.CRAWL_VALIDATION === 'success';
+          const run = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+          const validation = passed
+            ? 'Validation passed: lint, licenses, fast unit/worker tests, production build, asset budgets, and fixture browser tests. The exhaustive gzip split check remains part of release verification.'
+            : 'Validation did not pass. Review the failed checks before marking this draft ready; catalogue changes may require refreshed fixture assumptions or reviewed screenshots. The failed workflow result is retained.';
           writeFileSync(join(process.env.RUNNER_TEMP, 'crawl-pr.json'), JSON.stringify({
             title: 'Refresh published crawl catalogue',
             head: process.env.CRAWL_BRANCH,
             base: process.env.BASE_BRANCH,
-            body: 'Update the archive snapshot and generated browser catalogue from Common Crawl’s published tables.\n\nValidation: lint, fast unit/worker tests, production build, asset budgets, and fixture browser tests passed in the refresh workflow. The exhaustive gzip split check remains part of release verification.'
+            draft: !passed,
+            body: `Update the archive snapshot and generated browser catalogue from Common Crawl’s published tables.\n\n${validation}\n\n[Workflow results](${run})`
           }));
           NODE
           gh api --method POST "repos/$GITHUB_REPOSITORY/pulls" --input "$RUNNER_TEMP/crawl-pr.json" --jq '.html_url'

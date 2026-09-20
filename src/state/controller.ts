@@ -1,5 +1,6 @@
 /** Translate application intents into reader commands with one batch credit per frame. */
 
+import { MetadataPool } from "../cc/metadata-pool.ts";
 import { randomFile, resolveJump } from "../cc/paths.ts";
 import type { RecordMeta } from "../cc/record.ts";
 import {
@@ -53,6 +54,7 @@ export class Controller {
   private viewportIndex = 0;
   private persistenceTimer: ReturnType<typeof setTimeout> | undefined;
   private readonly iscc: IsccController;
+  private readonly metadataPool = new MetadataPool();
 
   /** Attach a worker and a frame clock without coupling the store to browser APIs. */
   constructor(
@@ -86,6 +88,7 @@ export class Controller {
         this.forgetPaths();
         this.worker.postMessage({ type: "stop" });
       }
+      this.metadataPool.clear();
       this.store.update({
         stream: null,
         rows: [],
@@ -110,6 +113,7 @@ export class Controller {
       if (!same) {
         this.cancelFrame();
         this.worker.postMessage({ type: "stop" });
+        this.metadataPool.clear();
         this.store.update({ stream: null, rows: [], fileInfo: null });
       }
       const requestId = ++this.sequence;
@@ -348,6 +352,7 @@ export class Controller {
   /** Start a file stream without discarding an already displayed standalone record. */
   private open(file: FileRef, from: number): void {
     this.cancelFrame();
+    this.metadataPool.clear();
     this.viewportIndex = 0;
     const id = ++this.sequence;
     this.store.update({
@@ -497,7 +502,12 @@ export class Controller {
     if (event.type === "rowsAvailable") this.schedule();
     else if (event.type === "rows") {
       this.credit = false;
-      this.store.update({ rows: [...this.store.state.rows, ...event.rows] });
+      this.store.update({
+        rows: [
+          ...this.store.state.rows,
+          ...event.rows.map((meta) => this.metadataPool.share(meta)),
+        ],
+      });
       if (event.more) this.schedule();
     } else if (
       (event.type === "state" || event.type === "progress") &&
@@ -573,6 +583,7 @@ export class Controller {
 
   /** Dispose the reader and its scheduled frame. */
   dispose(): void {
+    this.metadataPool.clear();
     this.save();
     this.cancelFrame();
     this.worker.onmessage = null;

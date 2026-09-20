@@ -8,6 +8,7 @@ import {
 } from "../cc/bytesource.ts";
 import { fetchRecord, InvalidRecordLinkError } from "../cc/direct.ts";
 import { type Member, MemberStream } from "../cc/members.ts";
+import { MetadataPool } from "../cc/metadata-pool.ts";
 import { fetchPaths } from "../cc/paths.ts";
 import { type RecordMeta, recordMeta } from "../cc/record.ts";
 import { type FileRef, fileUrl } from "../cc/urls.ts";
@@ -46,6 +47,7 @@ export class ReaderEngine {
   private readonly session;
   private readonly cache = new PayloadCache();
   private readonly metadata = new Map<number, RecordMeta>();
+  private readonly metadataPool = new MetadataPool();
   private pending: RecordMeta[] = [];
   private notified = false;
   private file: FileRef | null = null;
@@ -272,6 +274,7 @@ export class ReaderEngine {
     this.resumeAfterJob = null;
     this.pending = [];
     this.metadata.clear();
+    this.metadataPool.clear();
     this.cache.clear();
     this.setState("connecting");
   }
@@ -332,11 +335,13 @@ export class ReaderEngine {
       throw new DOMException("Reading superseded.", "AbortError");
     this.safeOffset = member.offset + member.length;
     if (this.metadata.has(member.offset)) return;
-    const meta = recordMeta(parseWarc(member.data), {
-      index: this.nextIndex,
-      offset: member.offset,
-      length: member.length,
-    });
+    const meta = this.metadataPool.share(
+      recordMeta(parseWarc(member.data), {
+        index: this.nextIndex,
+        offset: member.offset,
+        length: member.length,
+      }),
+    );
     if (this.nextIndex !== null) this.nextIndex++;
     this.metadata.set(member.offset, meta);
     this.cache.put(member.offset, member.data);
@@ -449,6 +454,7 @@ export class ReaderEngine {
     this.streamId = -1;
     this.pending = [];
     this.metadata.clear();
+    this.metadataPool.clear();
     this.cache.clear();
     this.post({ type: "stopped" });
   }

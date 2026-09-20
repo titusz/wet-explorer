@@ -9,7 +9,7 @@ export interface RecordMeta {
   url: string | null;
   host: string | null;
   date: string | null;
-  languages: string[];
+  languages: readonly string[];
   recordId: string;
   refersTo: string | null;
   digest: string | null;

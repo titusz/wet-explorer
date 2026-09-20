@@ -3,6 +3,7 @@ import { execFile } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { promisify } from "node:util";
 import type { BrowserContext } from "@playwright/test";
+import { linuxMemoryCounters } from "../../scripts/linux-memory.ts";
 
 const execute = promisify(execFile);
 
@@ -10,25 +11,16 @@ interface ProcessMemory {
   id: number;
   residentBytes: number;
   privateBytes: number | null;
+  privateMappingBytes?: number;
 }
 
-/** Read a required kernel memory counter in bytes. */
-function kilobytes(source: string, field: string): number {
-  const value = new RegExp(`^${field}:\\s+(\\d+) kB$`, "m").exec(source)?.[1];
-  if (value === undefined)
-    throw new Error(`Missing process memory counter: ${field}`);
-  return Number(value) * 1024;
-}
-
-/** Sample a Linux renderer's resident and private mappings without reading its contents. */
+/** Sample Linux private footprint, resident size, and private mappings without reading memory. */
 async function linuxMemory(id: number): Promise<ProcessMemory> {
-  const source = await readFile(`/proc/${id}/smaps_rollup`, "utf8");
-  return {
-    id,
-    residentBytes: kilobytes(source, "Rss"),
-    privateBytes:
-      kilobytes(source, "Private_Clean") + kilobytes(source, "Private_Dirty"),
-  };
+  const [status, mappings] = await Promise.all([
+    readFile(`/proc/${id}/status`, "utf8"),
+    readFile(`/proc/${id}/smaps_rollup`, "utf8"),
+  ]);
+  return { id, ...linuxMemoryCounters(status, mappings) };
 }
 
 /** Read the working set and private commitment of the named Windows renderers. */

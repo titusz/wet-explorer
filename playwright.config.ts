@@ -6,6 +6,8 @@ const engines = [
   { name: "firefox", device: "Desktop Firefox" },
   { name: "webkit", device: "Desktop Safari" },
 ];
+const performanceTests =
+  /(?:stream-performance|interaction-latency|reader-latency)\.spec\.ts/;
 
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -22,12 +24,12 @@ export default defineConfig({
     ...engines.flatMap((engine) => [
       {
         name: engine.name,
-        testIgnore: /(?:stream-performance|visual)\.spec\.ts/,
+        testIgnore: [performanceTests, /visual\.spec\.ts/],
         use: { ...devices[engine.device] },
       },
       {
         name: `${engine.name}-performance`,
-        testMatch: /stream-performance\.spec\.ts/,
+        testMatch: performanceTests,
         use: {
           ...devices[engine.device],
           trace: {

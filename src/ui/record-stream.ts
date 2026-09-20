@@ -11,6 +11,7 @@ import "./record-row.ts";
 import "./stream-status-bar.ts";
 import "./filter-bar.ts";
 import "./file-summary.ts";
+import "./empty-state.ts";
 
 export class RecordStream extends StoreElement {
   private top = 0;
@@ -196,7 +197,7 @@ export class RecordStream extends StoreElement {
                 html`<record-row .row=${row} .position=${window.start + localIndex} .total=${rows.length} .active=${this.active === window.start + localIndex} .selected=${route.kind === "record" && row.offset === route.offset} @click=${() => this.open(window.start + localIndex)}></record-row>`,
             )}
         </div></div>
-        ${filtered && !rows.length ? html`<div class="list-message" role="status">No matches in ${scope}. <button type="button" class="clear-filter" @click=${() => startController().filter(emptyFilters())}>Clear filters</button></div>` : nothing}
+        ${filtered && !rows.length ? html`<empty-state .scope=${scope}></empty-state>` : nothing}
         ${!filtered && !rows.length && (stream?.state === "connecting" || stream?.state === "reading") ? html`<div class="row-skeletons" aria-label="Waiting for records">${Array.from({ length: 12 }, () => html`<div class="row-skeleton"><span></span><span></span></div>`)}</div>` : nothing}
         ${!rows.length && stream?.state === "interrupted" ? html`<p class="list-message">Common Crawl did not answer. Continue to try again.</p>` : nothing}
       </div>

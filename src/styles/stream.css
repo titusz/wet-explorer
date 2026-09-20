@@ -257,6 +257,9 @@ wet-app:has(.stream-layout) {
   height: 9px;
   width: 34%;
 }
+empty-state {
+  display: block;
+}
 .list-message {
   padding: 24px 20px;
   color: var(--wet-text-muted);

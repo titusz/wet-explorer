@@ -385,6 +385,9 @@ jump-field form {
 .mobile-files {
   display: none;
 }
+error-state {
+  display: block;
+}
 .picker-error {
   display: flex;
   flex-direction: column;

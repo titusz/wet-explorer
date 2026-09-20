@@ -2,12 +2,12 @@
 import { html, nothing } from "lit";
 import type { FileRef } from "../cc/urls.ts";
 import { filePath, routeHash } from "../cc/urls.ts";
-import { startController } from "../state/controller.ts";
 import { visitFraction } from "../state/persistence.ts";
 import { store } from "../state/store.ts";
 import { StoreElement } from "./store-element.ts";
 import "./jump-field.ts";
 import "./random-file.ts";
+import "./error-state.ts";
 
 export class SegmentGrid extends StoreElement {
   static properties = {
@@ -133,7 +133,7 @@ export class WetPicker extends StoreElement {
         : files
           ? `${files.length.toLocaleString("en")} files in segment ${ordinal}`
           : "Pick a file";
-    return html`<main class="picker"><div class="picker-heading"><div class="eyebrow">${route.kind === "crawl" ? "02 / Segment" : "03 / File"}</div><h1>${title}</h1><p>${route.kind === "crawl" ? "Arbitrary shards. Which one you take does not change what you find, because every file is a random sample of the whole crawl." : html`<span class="wide-copy">Each file is an arbitrary shard. Cells fill up as you read them.</span><span class="narrow-copy">Pick a hundred first, then a file.</span>`}</p></div><div class="picker-body ${route.kind === "segment" ? "picking-file" : ""}"><div class="picker-grid">${pathState?.status === "error" ? html`<section class="picker-error" role="status"><h2>The file list could not be loaded.</h2><p>Common Crawl may be unavailable, or this crawl may use an unsupported file format.</p><button class="secondary-action" type="button" @click=${() => startController().ensurePaths(route.crawl, true)}>Try again</button><a tabindex="0" href="#/">Choose another crawl</a></section>` : !index ? html`<div class="grid-skeleton" role="status" aria-label="Loading the file list">${Array.from({ length: 100 }, () => html`<span></span>`)}</div>` : route.kind === "crawl" ? html`<segment-grid .crawl=${route.crawl} .segments=${[...index.segments]}></segment-grid>` : files ? html`<file-grid .files=${files}></file-grid>` : html`<section class="picker-error" role="status"><h2>This segment is not in the crawl.</h2><a tabindex="0" href=${routeHash({ kind: "crawl", crawl: route.crawl })}>Choose a segment</a></section>`}</div><aside class="picker-tools"><jump-field .crawl=${route.crawl}></jump-field><div class="visit-legend" role="group" aria-label="File shading"><span><i class="opened-swatch" aria-hidden="true"></i>Opened before</span><span><i aria-hidden="true"></i>Not opened</span></div>${route.kind === "crawl" ? html`<p class="shard-explanation">A WET file has no table of contents. Records can only be discovered by reading it, so filtering is available once records arrive.</p>` : nothing}<random-file .crawl=${route.crawl}></random-file></aside></div></main>`;
+    return html`<main class="picker"><div class="picker-heading"><div class="eyebrow">${route.kind === "crawl" ? "02 / Segment" : "03 / File"}</div><h1>${title}</h1><p>${route.kind === "crawl" ? "Arbitrary shards. Which one you take does not change what you find, because every file is a random sample of the whole crawl." : html`<span class="wide-copy">Each file is an arbitrary shard. Cells fill up as you read them.</span><span class="narrow-copy">Pick a hundred first, then a file.</span>`}</p></div><div class="picker-body ${route.kind === "segment" ? "picking-file" : ""}"><div class="picker-grid">${pathState?.status === "error" ? html`<error-state .crawl=${route.crawl}></error-state>` : !index ? html`<div class="grid-skeleton" role="status" aria-label="Loading the file list">${Array.from({ length: 100 }, () => html`<span></span>`)}</div>` : route.kind === "crawl" ? html`<segment-grid .crawl=${route.crawl} .segments=${[...index.segments]}></segment-grid>` : files ? html`<file-grid .files=${files}></file-grid>` : html`<error-state .crawl=${route.crawl} missingSegment></error-state>`}</div><aside class="picker-tools"><jump-field .crawl=${route.crawl}></jump-field><div class="visit-legend" role="group" aria-label="File shading"><span><i class="opened-swatch" aria-hidden="true"></i>Opened before</span><span><i aria-hidden="true"></i>Not opened</span></div>${route.kind === "crawl" ? html`<p class="shard-explanation">A WET file has no table of contents. Records can only be discovered by reading it, so filtering is available once records arrive.</p>` : nothing}<random-file .crawl=${route.crawl}></random-file></aside></div></main>`;
   }
 }
 

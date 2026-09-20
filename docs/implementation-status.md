@@ -146,4 +146,10 @@ Click and record-paint timing cases now belong to the performance projects, usin
 
 Fixture acquisition is manual and recorded in `tests/fixtures/sources.json`; automated checks remain offline. The manual pre-release smoke on 20 September 2026 verified the reference title with exactly one live 1,799-byte range request and no retry.
 
-Live core path in Chrome, Firefox and Safari; a tagged GitHub Pages deployment to `titusz/wet-explorer`; requirement-by-requirement completion audit. Local tests alone do not establish these.
+The [completion audit](completion-audit.md) maps the definition of done, architecture and every budget to its evidence. It identified two missing named component boundaries: filter-empty and picker-recovery markup now lives in `EmptyState` and `ErrorState`, preserving existing copy and actions. The extraction passes TypeScript, the production build, Biome and asset budgets (37,842 gzip JavaScript bytes and 7,142 gzip CSS bytes; font and wasm totals unchanged).
+
+All 65 affected browser checks pass together after extraction: 45 navigation/finishing cases across the three engines, all 12 accessibility journeys, and eight Windows visual journeys without snapshot updates. The run completes in 5.3 minutes; its log and artifacts are retained locally under `.cache/component-audit*`.
+
+Manual live-host reports cover installed Chrome 153.0.8010.36, Playwright Firefox 155.0 and Playwright WebKit 26.6. Each opens a record, advances, copies its link through the app and verifies the displayed text prefix in a fresh context with one record request. The Chrome journey was completed across attempts after helper timing fixes; Firefox and WebKit completed uninterrupted random-file journeys. The actual Safari application remains unverified.
+
+Hosted CI and a tagged GitHub Pages deployment to `titusz/wet-explorer` also remain pending. Automatic approval review rejected public repository creation and pushing the local history until the destination and publication payload receive explicit approval. No repository, remote, push or deployment has been created.

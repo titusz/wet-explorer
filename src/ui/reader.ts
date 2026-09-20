@@ -248,7 +248,7 @@ export class Reader extends StoreElement {
   protected render() {
     const { selection, route, stream } = store.state;
     if (route.kind !== "record")
-      return html`<section class="reader-empty"><h1>Choose a record to read</h1><p>Records arrive as the file is read. Select a row to open its text.</p></section>`;
+      return html`<section class="reader-empty"><h2>Choose a record to read</h2><p>Records arrive as the file is read. Select a row to open its text.</p></section>`;
     const record = this.record;
     const link = new URL(routeHash(route), location.href).href;
     const target = webUrl(record?.meta.url ?? null);

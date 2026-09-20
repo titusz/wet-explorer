@@ -1,5 +1,6 @@
 /** Generate the browser catalogue offline; refresh the snapshot explicitly. */
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { parseCrawls } from "../src/state/catalogue.ts";
 import { type Crawl, parseCatalogue, parseWetStats } from "./catalogue.ts";
 
 const archive = "https://data.commoncrawl.org/crawl-data/";
@@ -38,13 +39,7 @@ async function refresh(): Promise<void> {
 }
 
 if (process.argv.includes("--refresh")) await refresh();
-const crawls = JSON.parse(await readFile(snapshot, "utf8")) as Crawl[];
-if (
-  !crawls.length ||
-  !crawls.every((crawl) => /^CC-MAIN-\d{4}-\d{2}$/.test(crawl.id))
-) {
-  throw new Error("Invalid catalogue snapshot.");
-}
+const crawls = parseCrawls(JSON.parse(await readFile(snapshot, "utf8")));
 await mkdir(new URL("../public/", import.meta.url), { recursive: true });
 await writeFile(
   new URL("../public/crawls.json", import.meta.url),

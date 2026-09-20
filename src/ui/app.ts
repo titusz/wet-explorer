@@ -121,7 +121,7 @@ export class WetApp extends StoreElement {
           </div>
           <return-position></return-position>
         </section>
-        <aside class="crawl-sidebar"><crawl-list></crawl-list></aside>
+        <aside class="crawl-sidebar" aria-label="Crawl selection"><crawl-list></crawl-list></aside>
       </main>
       ${this.renderFooter()}`;
   }

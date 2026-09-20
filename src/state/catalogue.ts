@@ -1,4 +1,6 @@
 /** Load the optional static crawl catalogue only when an older year is expanded. */
+export const FIRST_SUPPORTED_CRAWL = "CC-MAIN-2017-22";
+
 export interface Crawl {
   id: string;
   label: string;
@@ -34,7 +36,11 @@ export function parseCrawls(value: unknown): Crawl[] {
     }
     seen.add(entry.id);
   }
-  return (value as Crawl[]).toSorted((a, b) => b.id.localeCompare(a.id));
+  const supported = (value as Crawl[]).filter(
+    (crawl) => crawl.id >= FIRST_SUPPORTED_CRAWL,
+  );
+  if (!supported.length) throw new Error("No compatible crawls available.");
+  return supported.toSorted((a, b) => b.id.localeCompare(a.id));
 }
 
 /** Read only the app's static catalogue with a bounded wait. */

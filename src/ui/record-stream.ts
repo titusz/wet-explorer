@@ -184,9 +184,10 @@ export class RecordStream extends StoreElement {
         ? rows[this.active]
         : undefined;
     return html`
+      ${route.kind === "file" ? html`<h1 class="visually-hidden">Records read from this file</h1>` : nothing}
       <filter-bar></filter-bar>
       <div class="stream-scope"><span>${filtered ? `${number.format(rows.length)} matches in ${scope}` : `${number.format(stream?.rows ?? 0)} records read${stream?.state === "complete" ? "" : " so far"}`}</span><span>${number.format(this.shortCount)} short records ${this.filters.hideShort ? "hidden" : "muted"}</span></div>
-      <div class="record-viewport" role="listbox" tabindex="0" aria-label="Records read from this file" aria-activedescendant=${activeRow ? `row-${activeRow.offset}` : nothing} @scroll=${this.queueMeasure} @keydown=${this.keydown}>
+      <div class="record-viewport" role=${rows.length ? "listbox" : "region"} tabindex="0" aria-label="Records read from this file" aria-activedescendant=${activeRow ? `row-${activeRow.offset}` : nothing} @scroll=${this.queueMeasure} @keydown=${this.keydown}>
         <div class="record-canvas"><div class="record-window">
           ${rows
             .slice(window.start, window.end)

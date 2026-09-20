@@ -1,13 +1,31 @@
 /** Check the optional catalogue against the recorded static release list. */
 import { expect, test } from "vitest";
+import boundary from "../../data/crawl-format-boundary.json";
 import data from "../../data/crawls-source.json";
+import published from "../../public/crawls.json";
+import { parseFilePath } from "../cc/urls.ts";
 import { parseCrawls } from "./catalogue.ts";
+import years from "./crawl-years.json";
 
-test("the source catalogue is ordered newest first with valid page counts", () => {
+test("the selectable catalogue starts at the modern filename transition", () => {
   const crawls = parseCrawls(data.toReversed());
   expect(crawls[0]?.id).toBe("CC-MAIN-2026-34");
-  expect(crawls.at(-1)?.id).toBe("CC-MAIN-2013-20");
-  expect(crawls).toHaveLength(data.length);
+  expect(crawls.at(-1)?.id).toBe("CC-MAIN-2017-22");
+  expect(crawls.length).toBeLessThan(data.length);
+  expect(published).toEqual(crawls);
+  expect(years.at(-1)).toEqual({ year: 2017, count: 8 });
+});
+
+test("recorded boundary paths confirm the supported and unsupported formats", () => {
+  for (const entry of boundary) {
+    const supported = entry.crawl === "CC-MAIN-2017-22";
+    expect(!!parseFilePath(entry.first)).toBe(supported);
+    expect(!!parseFilePath(entry.last)).toBe(supported);
+    expect(entry.incompatiblePaths).toBe(supported ? 0 : entry.paths);
+  }
+  expect(() =>
+    parseCrawls(data.filter((crawl) => crawl.id < "CC-MAIN-2017-22")),
+  ).toThrow("No compatible crawls");
 });
 
 test("invalid static entries cannot become crawl selections", () => {

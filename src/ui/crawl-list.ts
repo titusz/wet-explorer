@@ -48,7 +48,7 @@ export class CrawlList extends StoreElement {
     const first = years.slice(0, 4);
     const middle = years.slice(4, -1);
     const oldest = years.length > 4 ? years.at(-1) : undefined;
-    return html`<div class="eyebrow">Recent crawls</div><div class="crawl-list" aria-label="Recent crawls">${store.state.crawls.recent.map(crawlOption)}</div><div class="eyebrow older-label">Earlier, by year</div>${first.map((year) => html`<year-group .year=${year.year} .count=${year.count}></year-group>`)}${middle.length ? html`<details class="earlier-years"><summary>${icon("next")}<span>${middle[0]?.year} to ${middle.at(-1)?.year}</span><small>${middle.reduce((sum, year) => sum + year.count, 0)} crawls</small></summary>${middle.map((year) => html`<year-group .year=${year.year} .count=${year.count}></year-group>`)}</details>` : nothing}${oldest ? html`<year-group .year=${oldest.year} .count=${oldest.count}></year-group>` : nothing}`;
+    return html`<div class="eyebrow">Recent crawls</div><div class="crawl-list" role="group" aria-label="Recent crawls">${store.state.crawls.recent.map(crawlOption)}</div><div class="eyebrow older-label">Earlier, by year</div>${first.map((year) => html`<year-group .year=${year.year} .count=${year.count}></year-group>`)}${middle.length ? html`<details class="earlier-years"><summary>${icon("next")}<span>${middle[0]?.year} to ${middle.at(-1)?.year}</span><small>${middle.reduce((sum, year) => sum + year.count, 0)} crawls</small></summary>${middle.map((year) => html`<year-group .year=${year.year} .count=${year.count}></year-group>`)}</details>` : nothing}${oldest ? html`<year-group .year=${oldest.year} .count=${oldest.count}></year-group>` : nothing}<p class="crawl-coverage">Crawls from May 2017 onward.</p>`;
   }
 }
 

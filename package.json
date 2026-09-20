@@ -20,7 +20,8 @@
     "smoke:live": "node scripts/live-smoke.ts",
     "fixtures": "node scripts/make-fixture.ts",
     "crawls:refresh": "node scripts/build-crawls.ts --refresh",
-    "check:budgets": "node scripts/check-budgets.ts"
+    "check:budgets": "node scripts/check-budgets.ts",
+    "check:licenses": "node scripts/check-licenses.ts"
   },
   "dependencies": {
     "@iscc/wasm": "0.6.0",
@@ -28,6 +29,7 @@
     "lit": "3.3.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@biomejs/biome": "2.5.14",
     "@playwright/test": "1.63.0",
     "@types/node": "^24.0.0",

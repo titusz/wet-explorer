@@ -10,7 +10,7 @@ The application retains the supplied design tokens, Readex Pro and JetBrains Mon
 
 | Difference | Reason |
 | --- | --- |
-| Crawl dates and archive statistics | The app uses the checked-in catalogue's 124 crawls, rather than the illustrative catalogue values. Six recent crawls remain available; four are visible above the bottom action at 390 px. |
+| Crawl dates and archive statistics | The app offers 91 compatible crawls from May 2017 onward, using the approved filename boundary and checked-in source catalogue. A short note explains the range. Six recent crawls remain available; four are visible above the bottom action at 390 px. |
 | Three segments, and neutral unvisited cells | The recorded manifest fixture has 2,500 lines across three segments. A fresh session has no visit history; it must not invent selected or visited cells. The legend describes actual opened/unopened state. |
 | No estimated record count for a file or saved position | The brief prohibits a total before EOF. Titusz approved “7,840 records · 38% of file read.” |
 | Different record titles, languages and text | Captures use the byte-exact recorded fixture, including all its language chips and original page boilerplate. They do not substitute the hand-off's invented shortwave-receiver article. |

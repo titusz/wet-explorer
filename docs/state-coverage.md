@@ -27,11 +27,12 @@ All automated examples use local recorded or explicitly invented fixtures. Brows
 | Offline reading | `reader.spec.ts`: browser offline state, cached text/raw/next/copy remain usable, no additional request |
 | Immediate interaction feedback | `interaction-latency.spec.ts`: theme, notice, loading feedback, pickers, mobile disclosure, reader/raw, details, copy and filter clicks under 100 ms at both widths in all engines |
 | ISCC panel | `iscc.spec.ts`: no worker or wasm before the open panel approaches the viewport, reference code within 500 ms, full copying, navigation during loading, failed-load retry and keyboard focus; `iscc-visual.spec.ts`: idle/computing/ready in both themes at both widths |
+| Automated accessibility | `axe.spec.ts`: landing, older crawls, both pickers, complete/filtered streams, reader/raw, ISCC/details, permanent record, record error and invalid link; both themes at both widths in all three engines |
 
 The byte-source budget tests consume both 64,000,000 bytes and 64 MiB in 16 sequential bounded requests. Permanent-link paint is checked across three engines with 175 ms of simulated latency. These cases run in CI; the 20,000-row browser benchmark separately exercises deliberate pause/resume requests.
 
 `reader-latency.spec.ts` also covers an approximately 500,000-character first line: full title expansion within 100 ms, scrolling to its end, exact full-value copying, collapse and a 390 px layout. Oversized headings use lossless sections whose off-screen layout is deferred by the browser.
 
-The axe audit, native-memory budget and manual live release verification remain release work. Native renderer measurements are implemented and currently exceed the budget; exact values and the pending counter definition are recorded in `implementation-status.md`.
+The private-memory budget, repeatable performance and manual live release verification remain release work. Titusz approved private footprint as the counter with resident memory also reported. The latest private measurement still exceeds the threshold; exact values are recorded in `implementation-status.md`.
 
 `record-memory.test.ts` verifies that retained metadata releases oversized unused WARC headers. The test failed before the byte-based header-field decoding change and passes in Windows and Ubuntu measurements. `memory-investigation.md` records the fix and the unresolved native-memory and frame-stability evidence.

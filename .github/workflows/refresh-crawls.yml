@@ -34,6 +34,7 @@ jobs:
       - if: steps.catalogue.outputs.changed == 'true'
         run: |
           npm run lint
+          npm run check:licenses
           npm run test:fast
           npm run build
           npm run check:budgets

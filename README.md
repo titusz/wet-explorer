@@ -4,6 +4,8 @@ Read Common Crawl's extracted web text directly in the browser. The implementati
 
 Choose a crawl and open a random file, or drill down through the segment and file pickers. Records arrive as the file is read. Reading pauses after about 200 unseen rows and continues when you approach the end of the list or choose Continue. Counts describe records already read; the file's total is unknown until EOF.
 
+Selectable crawls start in May 2017, when Common Crawl adopted the filename format supported by the app. Earlier records remain covered by parser tests. See [catalogue compatibility](docs/catalogue-compatibility.md) for the recorded boundary evidence.
+
 Open a row to read its text, inspect the exact raw record, or copy its permanent link. A permanent link requests only that record's gzip member. Previous is available only when earlier records are known; standalone records can continue forward or open the file from the top.
 
 The ISCC panel computes a 256-bit Text-Code locally from the full record payload. Its separate worker and bundled wasm load only after the record text is displayed and the panel approaches the viewport. Copying uses the complete code; a failed computation leaves the text readable and offers an explicit retry.
@@ -25,6 +27,7 @@ The development server uses `http://127.0.0.1:43871`. `npm run build` writes sta
 
 ```sh
 npm run lint
+npm run check:licenses
 npm test
 npm run build
 npm run check:budgets
@@ -34,11 +37,15 @@ npm run test:e2e
 
 Tests are offline. Browser tests block external requests; unit tests reject live `fetch`. Fixture acquisition and catalogue refresh are explicit maintenance commands, never test setup.
 
+`npm run check:licenses` validates every locked dependency: browser packages require MIT, Apache-2.0 or BSD; development tools may also use ISC or MPL-2.0. The pinned `@iscc/wasm` package has an explicit exception for its missing npm license field. Both CI and catalogue maintenance enforce this policy.
+
+The axe audit covers navigation, reading and recovery in both themes at desktop and mobile widths across all three engines. Each state writes its violations and manual-review findings to a JSON test artifact. Keyboard and focus-contrast journeys provide separate interaction coverage.
+
 `npm test` includes all 150,186 two-chunk split positions in the real 50-member fixture; this exhaustive check took about 17 minutes locally. `npm run test:fast` runs the remaining unit and worker tests during development. CI runs the complete suite.
 
 `npx playwright test --project=chromium-visual` checks the main screens at 1440 and 390 px in both themes. Reviewed baselines are included for Windows and Ubuntu 24.04; CI is pinned to Ubuntu 24.04. See [visual verification](docs/visual-verification.md) for comparison coverage, explained differences from the hand-off, and baseline updates.
 
-Browser performance projects run separately from the default-engine functional projects, with one browser at a time. Their traces omit screenshot capture during timing, and Firefox uses a 60 Hz software clock through the [documented `layout.frame_rate` preference](https://github.com/mozilla-firefox/firefox/blob/main/gfx/thebes/gfxPlatform.cpp). A loopback HTTPS fixture streams chunks and stops on cancellation; its disposable certificate is accepted only by those isolated test contexts. Measurements retain frame durations, transfer bytes, concurrency, Chromium page/worker heap and buffers, and renderer resident/private memory in `test-results/`. The native-memory budget remains unresolved; see the implementation evidence for the measured values and pending counter decision.
+Browser performance projects run separately from the default-engine functional projects, with one browser at a time. Their traces omit screenshot capture during timing, and Firefox uses a 60 Hz software clock through the [documented `layout.frame_rate` preference](https://github.com/mozilla-firefox/firefox/blob/main/gfx/thebes/gfxPlatform.cpp). A loopback HTTPS fixture streams chunks and stops on cancellation; its disposable certificate is accepted only by those isolated test contexts. Measurements retain frame durations, transfer bytes, concurrency, Chromium page/worker heap and buffers, and renderer resident/private memory in `test-results/`. The approved native-memory gate is private footprint below 150 MiB; resident memory is also reported. The process counters are measured on Windows and Linux. See the implementation evidence for current results.
 
 Interaction timing checks cover desktop and mobile control feedback, including a delayed network response; cached reading is also tested with the browser offline. An isolated metadata-retention test ensures that unused oversized headers can be released. [Memory investigation](docs/memory-investigation.md) distinguishes the verified retention fix from the unresolved process-memory gate and observed frame variability.
 

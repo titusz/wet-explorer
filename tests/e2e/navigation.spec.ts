@@ -247,6 +247,18 @@ test("older years fetch the app catalogue once without fetching a WET file", asy
     page.locator("year-group").nth(1).locator(".crawl-option").first(),
   ).toBeVisible();
   expect(catalogueRequests).toHaveLength(1);
+  await expect(page.locator(".crawl-coverage")).toHaveText(
+    "Crawls from May 2017 onward.",
+  );
+  const oldest = page.locator("year-group").last();
+  await oldest.locator("summary").click();
+  await expect(oldest.locator(".crawl-option")).toHaveCount(8);
+  await expect(oldest.locator(".crawl-option").last()).toContainText(
+    "May 2017",
+  );
+  await expect(oldest.locator(".crawl-option")).not.toContainText([
+    "April 2017",
+  ]);
   expect(host.requests).toEqual([]);
 });
 

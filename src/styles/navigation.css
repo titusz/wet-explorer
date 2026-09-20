@@ -30,6 +30,12 @@ wet-picker {
 .older-label {
   margin: 28px 0 12px;
 }
+.crawl-coverage {
+  margin: 16px 0 0;
+  color: var(--wet-text-muted);
+  font-size: 12px;
+  line-height: 18px;
+}
 .year-group > summary,
 .earlier-years > summary {
   display: flex;
@@ -299,6 +305,9 @@ jump-field form {
 }
 .segment-cell small {
   display: none;
+}
+.segment-cell:hover small {
+  color: inherit;
 }
 .segment-cell:hover,
 .file-cell:hover {

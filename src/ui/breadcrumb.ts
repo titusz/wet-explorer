@@ -75,7 +75,7 @@ export class Breadcrumb extends StoreElement {
               ? 2
               : 3
       ];
-    return html`<nav class="archive-breadcrumb" aria-label="Where you are"><ol>${steps.map((step, index) => html`<li class=${index + 1 <= level ? "available" : ""} aria-current=${index + 1 === level ? "step" : nothing}><span class="eyebrow">${index + 1} / ${step.name}</span>${step.href && index < level ? html`<a tabindex="0" href=${step.href} title=${step.label}>${step.label}</a>` : html`<span>${step.label}</span>`}</li>`)}</ol><div class="mobile-breadcrumb"><a tabindex="0" href=${parent?.href ?? "#/"}>← <span>${isFile ? `${label} · File ${route.file.file.slice(-5)}` : route.kind === "segment" ? `${label} · ${segmentLabel}` : label}</span></a><span class="eyebrow" aria-label=${`Step ${level} of 4`}>${level} / 4</span></div></nav>`;
+    return html`<nav class="archive-breadcrumb" aria-label="Where you are"><ol>${steps.map((step, index) => html`<li class=${index + 1 <= level ? "available" : ""} aria-current=${index + 1 === level ? "step" : nothing}><span class="eyebrow">${index + 1} / ${step.name}</span>${step.href && index < level ? html`<a tabindex="0" href=${step.href} title=${step.label}>${step.label}</a>` : html`<span>${step.label}</span>`}</li>`)}</ol><div class="mobile-breadcrumb"><a tabindex="0" href=${parent?.href ?? "#/"}>← <span>${isFile ? `${label} · File ${route.file.file.slice(-5)}` : route.kind === "segment" ? `${label} · ${segmentLabel}` : label}</span></a><span class="eyebrow" role="img" aria-label=${`Step ${level} of 4`}>${level} / 4</span></div></nav>`;
   }
 }
 

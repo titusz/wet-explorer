@@ -1,0 +1,24 @@
+[
+  {
+    "crawl": "CC-MAIN-2017-17",
+    "source": "https://data.commoncrawl.org/crawl-data/CC-MAIN-2017-17/wet.paths.gz",
+    "retrievedAt": "2026-09-20T03:37:21.437Z",
+    "compressedBytes": 187798,
+    "sha256": "92bcc85fa104c55bd666bce6b4b38128308af816c3737271d57a28f798159c5e",
+    "paths": 64700,
+    "incompatiblePaths": 64700,
+    "first": "crawl-data/CC-MAIN-2017-17/segments/1492917118310.2/wet/CC-MAIN-20170423031158-00000-ip-10-145-167-34.ec2.internal.warc.wet.gz",
+    "last": "crawl-data/CC-MAIN-2017-17/segments/1492917127681.84/wet/CC-MAIN-20170423031207-00646-ip-10-145-167-34.ec2.internal.warc.wet.gz"
+  },
+  {
+    "crawl": "CC-MAIN-2017-22",
+    "source": "https://data.commoncrawl.org/crawl-data/CC-MAIN-2017-22/wet.paths.gz",
+    "retrievedAt": "2026-09-20T03:37:21.621Z",
+    "compressedBytes": 164563,
+    "sha256": "e586efae000abc94fad4c379bb1770d9e1039a4ca8c2d89fda4fdf7a9b2d4af2",
+    "paths": 56788,
+    "incompatiblePaths": 0,
+    "first": "crawl-data/CC-MAIN-2017-22/segments/1495463605188.47/wet/CC-MAIN-20170522151715-20170522171715-00000.warc.wet.gz",
+    "last": "crawl-data/CC-MAIN-2017-22/segments/1495463615105.83/wet/CC-MAIN-20170530124450-20170530144450-00511.warc.wet.gz"
+  }
+]

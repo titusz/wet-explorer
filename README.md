@@ -1,5 +1,7 @@
 # WET Explorer
 
+[Open the app](https://titusz.github.io/wet-explorer/) · [Releases](https://github.com/titusz/wet-explorer/releases)
+
 Read Common Crawl's extracted web text directly in the browser. The implementation follows the local design hand-off and implementation plan; progress and remaining release gates are tracked in [docs/implementation-status.md](docs/implementation-status.md).
 
 Choose a crawl and open a random file, or drill down through the segment and file pickers. Records arrive as the file is read. Reading pauses after about 200 unseen rows and continues when you approach the end of the list or choose Continue. Counts describe records already read; the file's total is unknown until EOF.
@@ -55,6 +57,6 @@ Before release, explicitly run `npm run smoke:live` for the manual host check. I
 
 The monthly catalogue workflow runs on the third day of each month at 05:23 UTC, or on manual dispatch. It fetches the archive tables, checks changed catalogues with offline tests, and opens a pull request for review. If validation fails, the update becomes a draft PR linking to the failed workflow; the job remains failed. A changed latest crawl can require updating recorded fixture assumptions and reviewing screenshots. Repository Actions settings must allow creation of pull requests. The refresh job runs its own validation: `GITHUB_TOKEN` pushes do not start push workflows, and its PR workflows [require approval to run](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow).
 
-For release, set the repository's Pages publishing source to **GitHub Actions** and allow release tags in the `github-pages` environment. Publishing a non-prerelease GitHub release reruns the complete verification workflow at that tag, then deploys its `dist/` artifact. This follows GitHub's [custom Pages workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages). Repository creation, hosted verification, manual live checks and the first deployment remain release gates; local workflow files do not establish a published site.
+Pages publishes through **GitHub Actions**, with version tags allowed in the `github-pages` environment. Publishing a non-prerelease GitHub release reruns the complete verification workflow at that tag, then deploys its `dist/` artifact. This follows GitHub's [custom Pages workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages). The [v0.1.0 deployment](https://github.com/titusz/wet-explorer/actions/runs/35495746167) passed all 146 unit/worker and 134 browser checks before publishing. See the [completion audit](docs/completion-audit.md) for deployed-file verification, manual browser results and any outstanding acceptance check.
 
 Code is Apache-2.0. Runtime dependency notices and the SIL OFL-1.1 notices for Readex Pro and JetBrains Mono ship in `public/licenses/`. Fonts, ISCC artwork and CSS tokens were extracted from the supplied design hand-off. Latin and extended Latin subsets total about 100 KB; record text uses the specified system/Noto font stack.

@@ -4,14 +4,14 @@ The source requirements are in the local `cauldron/WET-Explorer-Implementation-P
 
 ## Milestones
 
-- [ ] 0: Implemented scaffold, imported design, crawl catalogue, fixture tooling, static sub-path smoke, CI workflow. Local checks pass and the scaffold is committed. Hosted CI awaits repository creation.
+- [x] 0: Implemented scaffold, imported design, crawl catalogue, fixture tooling, static sub-path smoke and CI workflow. [Hosted verification](https://github.com/titusz/wet-explorer/actions/runs/35494912534) passes on Ubuntu 24.04.
 - [x] 1: Data-layer test gate passes: real offsets, exhaustive split invariance, retry recovery.
-- [x] 2: Reader worker, read-ahead, bounded cache, virtual stream and state harness pass local functional, frame and memory checks. Hosted CI remains pending under milestone 0.
+- [x] 2: Reader worker, read-ahead, bounded cache, virtual stream and state harness pass local and hosted functional, frame and memory checks.
 - [x] 3: Reader, raw text, long text, direction, adjacent-record and reader keyboard controls. Random-file and filter shortcuts connect with milestones 4 and 5.
 - [x] 4: Navigation, permanent links, direct fetch and compatibility path pass local acceptance. The approved catalogue starts with the compatible May 2017 format.
 - [x] 5: Persistence, scoped filters, summaries and brief states have local fixture coverage; see `docs/state-coverage.md` for the remaining release checks.
 - [x] 6: Lazy ISCC worker, reference-code verification, three panel states, full-code copy and failure recovery.
-- [ ] 7: Accessibility, measured budgets, three engines, visual checks, docs, deployment, monthly catalogue refresh.
+- [ ] 7: Accessibility, measured budgets, three-engine CI, visual checks, docs and tagged deployment are verified. Monthly catalogue automation is configured and checked. Titusz's actual Safari application check remains.
 
 ## Design questions
 
@@ -152,4 +152,10 @@ All 65 affected browser checks pass together after extraction: 45 navigation/fin
 
 Manual live-host reports cover installed Chrome 153.0.8010.36, Playwright Firefox 155.0 and Playwright WebKit 26.6. Each opens a record, advances, copies its link through the app and verifies the displayed text prefix in a fresh context with one record request. The Chrome journey was completed across attempts after helper timing fixes; Firefox and WebKit completed uninterrupted random-file journeys. The actual Safari application remains unverified.
 
-Hosted CI and a tagged GitHub Pages deployment to `titusz/wet-explorer` also remain pending. Automatic approval review rejected public repository creation and pushing the local history until the destination and publication payload receive explicit approval. No repository, remote, push or deployment has been created.
+Titusz approved public repository creation, pushing through `f41079f`, and Pages publication after hosted CI passes. The [public repository](https://github.com/titusz/wet-explorer) contains that checkpoint. [Hosted verification](https://github.com/titusz/wet-explorer/actions/runs/35494912534) passes all 146 unit/worker tests in 24 files, including every gzip split, and all 134 browser checks. The exhaustive test takes 514.3 seconds; the complete job takes 16 minutes 40 seconds.
+
+Hosted Chromium measures 119,406,592 private bytes (113.88 MiB), 234,299,392 resident bytes (223.45 MiB), and 51,585,227 retained heap/buffer bytes. Maximum scroll frames are 16.8, 17.1 and 24 ms across Chromium, Firefox and WebKit. Maximum click response is 29.3, 37 and 39 ms; fresh permanent links paint in 265.4, 300 and 341 ms including 175 ms simulated latency. All gates pass without retries.
+
+The `v0.1.0` release targets `f41079f`; its [deployment workflow](https://github.com/titusz/wet-explorer/actions/runs/35495746167) passes all 146 unit/worker and 134 browser checks again, then publishes the verified artifact. Pages serves `https://titusz.github.io/wet-explorer/` with HTTPS and release-tag access. All 20 deployed files match the artifact byte for byte. Complete live random-file/reader/Next/fresh-link journeys pass in Chrome 153.0.8010.36 and Firefox 155.0 on that published site; each fresh context makes one record request.
+
+The monthly catalogue workflow may create pull requests, with read-only default workflow permissions retained. Commit `4934468` preserves catalogue updates as draft PRs when validation fails, rather than losing updates that need fixture or screenshot review. The failed job remains failed; successful validation creates a ready PR. Actionlint, both offline payload-generation branches and [hosted follow-up verification](https://github.com/titusz/wet-explorer/actions/runs/35496183072) pass. Titusz chose to verify Safari personally; that application check is the remaining acceptance item.

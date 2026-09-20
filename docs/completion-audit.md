@@ -1,6 +1,6 @@
 # Completion audit
 
-Audited against the supplied implementation plan and design brief on 20 September 2026. Local implementation is verified; the complete release goal remains open until hosted verification, a tagged Pages deployment, and the Safari application check have evidence.
+Audited against the supplied implementation plan and design brief on 20 September 2026. Local and hosted verification pass, and the tagged release is deployed and verified. The complete release goal remains open until Titusz reports the Safari application check.
 
 ## Approved decisions
 
@@ -16,12 +16,12 @@ Audited against the supplied implementation plan and design brief on 20 Septembe
 
 | Requirement | Evidence and remaining work |
 | --- | --- |
-| Live core path in Chrome, Firefox and Safari | Chrome 153.0.8010.36, Playwright Firefox 155.0 and Playwright WebKit 26.6 have local live-host reports. Actual Safari remains unverified. The Chrome journey was completed across attempts after correcting the manual helper's timing; Firefox and WebKit completed uninterrupted random-file journeys. |
+| Live core path in Chrome, Firefox and Safari | Uninterrupted random-file journeys pass on the published site in Chrome 153.0.8010.36 and Firefox 155.0, including Next and a fresh permanent link with one record request. Earlier local WebKit 26.6 evidence is separate. Titusz will verify the actual Safari application. |
 | Every brief state is reachable | [State coverage](state-coverage.md) maps every state to fixture journeys, including unavailable manifests, throttling, interrupted streams, empty filters, damaged text, missing metadata and mobile layouts. |
 | Only own static files and Common Crawl requested | Fixture hosts reject unexpected origins; the unit setup rejects live fetch; CSP restricts connections and assets. Manual live reports contain only those two origins. Fonts and wasm are bundled. |
-| Tests pass in CI | Local evidence is recorded below. `.github/workflows/ci.yml` runs the exhaustive unit suite and all browser projects. No hosted run exists yet. |
-| Budgets pass in CI | Every budget has a committed check and local evidence below. Hosted measurement remains pending. |
-| Static output works under a sub-path | Vite uses relative asset URLs. Three-engine smoke and browser journeys serve `dist/` at `/wet-explorer/`. A public Pages deployment remains pending. |
+| Tests pass in CI | [Hosted verification](https://github.com/titusz/wet-explorer/actions/runs/35494912534) passes 146 unit/worker tests, including all 150,186 split positions, and all 134 browser tests. |
+| Budgets pass in CI | All asset, interaction, frame, memory, request and accessibility gates pass in the same hosted run; measured results follow below. |
+| Static output works under a sub-path | [v0.1.0 is deployed](https://github.com/titusz/wet-explorer/actions/runs/35495746167) at [the HTTPS project URL](https://titusz.github.io/wet-explorer/). All 20 published files match the verified Pages artifact byte for byte, including both workers, wasm, fonts, catalogue, SVG assets and license notices. |
 
 The manual single-record smoke passed with one 1,799-byte HTTP range and no retry. The live core-path helper checked record selection, Next, the app's clipboard write, and a fresh browser context making one record request. It compared the first 2,048 displayed characters by hash; it did not compare the entire payload or the operating-system clipboard. Firefox used the plan's documented TLS-proxy exception. WebKit evidence does not establish a Safari application pass.
 
@@ -38,7 +38,7 @@ The manual single-record smoke passed with one 1,799-byte HTTP range and no retr
 | Honest progress and optional persistence | Only arrived metadata is filtered. Totals appear after EOF. Forward reads exclude skipped bytes from saved progress. `wetx:v1` holds preferences and at most 200 visited-file entries; denied/cleared storage is covered and no payloads/manifests are persisted. |
 | ISCC isolation and input | Separate lazy worker loads only near an open panel. Real wasm tests verify the supplied reference, original-payload Unicode normalization, raw-view independence, navigation during loading and explicit failure recovery. |
 | Styling, licensing and security | Tokens, local font subsets and reviewed Windows/Linux snapshots preserve the hand-off. CSP and text-only rendering are tested. Runtime/font notices ship under `public/licenses`; the locked dependency gate enforces the approved exceptions. |
-| Maintenance and release | Verify, release deployment and monthly catalogue workflows are prepared and pass actionlint. Repository settings and actual hosted execution remain pending. Real fixtures and development helpers are outside `dist/`. |
+| Maintenance and release | Verify, release deployment and monthly catalogue workflows pass actionlint. Hosted verification and tagged deployment pass; Pages has HTTPS and release-tag access, and repository permissions allow catalogue PR creation. Failed catalogue validation retains a draft PR and a failed job; successful validation opens a ready PR. Both payload branches pass an offline check. Real fixtures and development helpers are outside the deployed artifact. |
 
 ## Budget evidence
 
@@ -60,12 +60,14 @@ Timing projects use the documented 60 Hz headless Firefox software clock; functi
 
 After the component extraction, all 65 affected browser checks pass in one run: 45 navigation/finishing journeys, 12 accessibility journeys and eight Windows screenshot comparisons, without baseline updates. TypeScript, production build, Biome, whitespace and asset checks pass. The run takes 5.3 minutes and its local log/artifacts are under `.cache/component-audit*`.
 
-The 145 fast unit/worker tests passed before the component extraction, which changes no data or worker logic. The exhaustive decoder check has prior local evidence, but its complete terminal log is not retained with this audit; hosted CI must produce durable evidence. All 12 latency cases and Windows/Linux stream measurements passed in their dedicated runs. The complete final project configuration has not run together in hosted CI.
+The complete project configuration passes together in [hosted CI](https://github.com/titusz/wet-explorer/actions/runs/35494912534): 146 unit/worker tests in 24 files, including the exhaustive decoder test in 514.3 seconds, followed by all 134 browser checks without retries. Logs and the `browser-test-results` artifact provide the measurements; copies are also retained locally under `.cache/hosted-verify-f41079f*`.
+
+Hosted Chromium measures 119,406,592 private bytes (113.88 MiB), 234,299,392 resident bytes (223.45 MiB), and 51,585,227 retained heap/buffer bytes. Maximum frames are 16.8 / 17.1 / 24 ms, maximum click responses 29.3 / 37 / 39 ms, and fresh-link paints 265.4 / 300 / 341 ms with 175 ms simulated latency, in Chromium/Firefox/WebKit order. Asset totals match the table above. GitHub emitted an action-runtime deprecation annotation for `actions/upload-artifact@v4`, which ran successfully on Node.js 24; updating that action is a maintenance follow-up.
 
 ## Release gates
 
-1. Obtain approval to publish the reviewed source, documentation, assets and fixtures to the public `titusz/wet-explorer` repository. Automatic approval review rejected the earlier creation/push because explicit destination and payload approval was missing. No repository, remote, push or deployment was created.
-2. Run the full hosted verification workflow, including exhaustive splits, all browser projects, accessibility and budgets. Resolve any hosted failure before release.
-3. Configure Pages for GitHub Actions, release-tag access to its environment, and catalogue PR creation. Publish a reviewed release tag and verify the deployed sub-path and assets.
-4. Verify the live core path in the actual Safari application, including a fresh permanent link. Record browser version, date and result.
-5. Update the release evidence with hosted run/deployment URLs and the Safari result. The plan's advice to tell Common Crawl before launch remains a product-owner action; no message has been sent.
+1. Publication is approved and the [public repository](https://github.com/titusz/wet-explorer) contains the reviewed history through `f41079f`.
+2. Full hosted verification passes as recorded above, including the [catalogue-workflow follow-up](https://github.com/titusz/wet-explorer/actions/runs/35496183072) at `4934468`.
+3. Pages is configured for GitHub Actions, HTTPS, version tags and catalogue PR creation. The [v0.1.0 release workflow](https://github.com/titusz/wet-explorer/actions/runs/35495746167) passes another complete 146-unit/134-browser verification and deploys `f41079f`. The deployed sub-path and all 20 artifact files are verified. Release Chromium measures 116.43 MiB private footprint and 226.47 MiB resident memory.
+4. Titusz will verify the live core path in the actual Safari application, including a fresh permanent link. Browser version, date and result remain pending. The drafted hosted-Safari helper remains local and is not part of CI.
+5. Add the Safari result when provided. The plan's advice to tell Common Crawl before launch remains a product-owner action; no message has been sent.

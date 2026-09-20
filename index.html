@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://data.commoncrawl.org; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'none'" />
+    <meta name="description" content="Read the text that Common Crawl actually stores. A browser-only explorer of the open web archive." />
+    <title>WET Explorer</title>
+  </head>
+  <body>
+    <wet-app></wet-app>
+    <noscript>WET Explorer needs JavaScript to read Common Crawl files in your browser.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

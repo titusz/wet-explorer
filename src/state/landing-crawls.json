@@ -1,0 +1,40 @@
+[
+  {
+    "id": "CC-MAIN-2026-34",
+    "label": "August 2026",
+    "year": 2026,
+    "pages": 2140000000,
+    "files": 100000,
+    "wetTiB": 5.84
+  },
+  {
+    "id": "CC-MAIN-2026-30",
+    "label": "July 2026",
+    "year": 2026,
+    "pages": 2140000000
+  },
+  {
+    "id": "CC-MAIN-2026-25",
+    "label": "June 2026",
+    "year": 2026,
+    "pages": 2100000000
+  },
+  {
+    "id": "CC-MAIN-2026-21",
+    "label": "May 2026",
+    "year": 2026,
+    "pages": 2160000000
+  },
+  {
+    "id": "CC-MAIN-2026-17",
+    "label": "April 2026",
+    "year": 2026,
+    "pages": 2190000000
+  },
+  {
+    "id": "CC-MAIN-2026-12",
+    "label": "March 2026",
+    "year": 2026,
+    "pages": 1970000000
+  }
+]

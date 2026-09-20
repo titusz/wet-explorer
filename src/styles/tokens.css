@@ -1,0 +1,89 @@
+:root {
+  --wet-page: #f8f9fa;
+  --wet-surface: #ffffff;
+  --wet-surface-alt: #f8f9fa;
+  --wet-header: #123663;
+  --wet-text: #212529;
+  --wet-text-muted: #636b71;
+  --wet-rule: #d2d6d9;
+  --wet-rule-strong: #212529;
+  --wet-action: #0054b2;
+  --wet-action-text: #ffffff;
+  --wet-selected: #0054b2;
+  --wet-selected-text: #ffffff;
+  --wet-accent: #f56169;
+  --wet-info: #4596f5;
+  --wet-info-subtle: #7ac2f7;
+  --wet-positive: #a6db50;
+  --wet-caution: #ffc300;
+  --wet-on-fill: #212529;
+  --wet-skeleton: #e9ecef;
+  --wet-track: #e9ecef;
+  --wet-radius: 0;
+  --wet-rule-width: 1px;
+  --wet-rule-width-strong: 2px;
+  --wet-measure: 680px;
+  --wet-page-max: 1200px;
+  --wet-motion-row: 140ms;
+  --wet-motion-fast: 160ms;
+  --wet-motion-open: 220ms;
+  --wet-motion-panel: 240ms;
+  --wet-easing: ease-out;
+  --wet-font-ui: "Readex Pro", Arial, sans-serif;
+  --wet-font-detail: "JetBrains Mono", Consolas, monospace;
+  --wet-font-record: system-ui, "Noto Sans", "Noto Sans JP", "Noto Sans SC",
+      "Noto Sans Arabic", "Noto Sans Hebrew", "Noto Sans Devanagari", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --wet-page: #0c2348;
+  --wet-surface: #123663;
+  --wet-surface-alt: #0f2c54;
+  --wet-header: #0a1c36;
+  --wet-text: #ffffff;
+  --wet-text-muted: #a9bbd4;
+  --wet-rule: #2c5187;
+  --wet-rule-strong: #ffffff;
+  --wet-action: #7ac2f7;
+  --wet-action-text: #0c2348;
+  --wet-selected: #1c6fd0;
+  --wet-selected-text: #ffffff;
+  --wet-accent: #f56169;
+  --wet-info: #4596f5;
+  --wet-info-subtle: #7ac2f7;
+  --wet-positive: #a6db50;
+  --wet-caution: #ffc300;
+  --wet-on-fill: #10233f;
+  --wet-skeleton: #1b4477;
+  --wet-track: #1b4477;
+} }
+
+:root[data-theme="dark"] {
+  --wet-page: #0c2348;
+  --wet-surface: #123663;
+  --wet-surface-alt: #0f2c54;
+  --wet-header: #0a1c36;
+  --wet-text: #ffffff;
+  --wet-text-muted: #a9bbd4;
+  --wet-rule: #2c5187;
+  --wet-rule-strong: #ffffff;
+  --wet-action: #7ac2f7;
+  --wet-action-text: #0c2348;
+  --wet-selected: #1c6fd0;
+  --wet-selected-text: #ffffff;
+  --wet-accent: #f56169;
+  --wet-info: #4596f5;
+  --wet-info-subtle: #7ac2f7;
+  --wet-positive: #a6db50;
+  --wet-caution: #ffc300;
+  --wet-on-fill: #10233f;
+  --wet-skeleton: #1b4477;
+  --wet-track: #1b4477;
+}
+
+@media (prefers-reduced-motion: reduce) { :root {
+  --wet-motion-row: 0ms;
+  --wet-motion-fast: 0ms;
+  --wet-motion-open: 0ms;
+  --wet-motion-panel: 0ms;
+} }

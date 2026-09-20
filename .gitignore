@@ -1,0 +1,9 @@
+# Bubbling, alchemical, where secret raw ingredients transform ;)
+cauldron/
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.cache/
+*.tsbuildinfo

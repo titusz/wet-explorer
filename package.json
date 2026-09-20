@@ -1,0 +1,36 @@
+{
+  "name": "wet-explorer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/build-crawls.ts && tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "fixtures": "node scripts/make-fixture.ts",
+    "crawls:refresh": "node scripts/build-crawls.ts --refresh",
+    "check:budgets": "node scripts/check-budgets.ts"
+  },
+  "dependencies": {
+    "@iscc/wasm": "0.6.0",
+    "fflate": "0.8.3",
+    "lit": "3.3.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^24.0.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.0",
+    "vitest": "5.0.1"
+  }
+}

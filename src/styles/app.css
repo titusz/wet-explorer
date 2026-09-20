@@ -1,0 +1,263 @@
+/* Responsive layout translated from the supplied fixed-size design boards. */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--wet-page);
+  color: var(--wet-text);
+  font: 15px / 22px var(--wet-font-ui);
+}
+wet-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a {
+  color: var(--wet-action);
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 2px solid var(--wet-action);
+  outline-offset: 2px;
+}
+.app-header {
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: var(--wet-header);
+  color: white;
+}
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+}
+.theme-button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #2c5187;
+  color: white;
+  background: transparent;
+  font-size: 24px;
+}
+.first-notice {
+  padding: 11px max(24px, calc((100% - 1200px) / 2));
+  background: var(--wet-caution);
+  color: #212529;
+  font-size: 14px;
+}
+.landing {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  flex: 1;
+  padding: 32px max(24px, calc((100% - 1200px) / 2)) 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 680fr) minmax(0, 440fr);
+  gap: 80px;
+}
+.landing-primary {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-top: 2px solid var(--wet-rule-strong);
+  padding-top: 14px;
+}
+.eyebrow {
+  font: 12px / 16px var(--wet-font-detail);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--wet-text-muted);
+}
+h1,
+h2,
+p {
+  margin: 0;
+}
+h1 {
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 300;
+  text-wrap: pretty;
+}
+.intro p {
+  max-width: 600px;
+  font-size: 17px;
+  line-height: 26px;
+  color: var(--wet-text-muted);
+}
+.crawl-card {
+  padding: 24px;
+  background: var(--wet-surface);
+  border: 1px solid var(--wet-rule);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.crawl-numbers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.crawl-numbers div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.crawl-numbers strong {
+  font: 500 20px / 28px var(--wet-font-detail);
+}
+.crawl-numbers span {
+  font-size: 13px;
+  color: var(--wet-text-muted);
+}
+.landing-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.primary-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  background: var(--wet-action);
+  border: 1px solid var(--wet-action);
+  color: var(--wet-action-text);
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.action-caption {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--wet-text-muted);
+}
+.action-caption span {
+  flex: 1;
+}
+.action-caption a {
+  flex-shrink: 0;
+  font-size: 14px;
+}
+.crawl-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.crawl-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--wet-rule);
+  color: var(--wet-text);
+  text-decoration: none;
+}
+.crawl-option small {
+  font: 11px var(--wet-font-detail);
+  color: var(--wet-text-muted);
+}
+.crawl-option.selected {
+  background: var(--wet-selected);
+  color: var(--wet-selected-text);
+}
+.crawl-option.selected small {
+  color: inherit;
+}
+.app-footer {
+  padding: 32px max(24px, calc((100% - 1200px) / 2));
+  background: var(--wet-surface);
+  border-top: 1px solid var(--wet-rule);
+  display: flex;
+  gap: 64px;
+  font-size: 14px;
+  line-height: 20px;
+}
+.app-footer > div {
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--wet-text-muted);
+}
+.app-footer nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.foundation-logo {
+  object-fit: contain;
+}
+@media (max-width: 1279px) {
+  .landing {
+    gap: 32px;
+  }
+  .app-footer {
+    gap: 24px;
+  }
+  .action-caption {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 767px) {
+  .app-header {
+    padding: 0 20px;
+  }
+  .first-notice {
+    padding: 12px 20px;
+  }
+  .landing {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 20px 40px;
+    gap: 32px;
+  }
+  h1 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  .crawl-card {
+    padding: 20px;
+  }
+  .crawl-numbers {
+    gap: 12px;
+  }
+  .crawl-numbers strong {
+    font-size: 15px;
+    line-height: 24px;
+  }
+  .app-footer {
+    flex-direction: column;
+    padding: 24px 20px;
+  }
+}

@@ -1,0 +1,7 @@
+
+body{margin:0;font-family:"Readex Pro", Arial, sans-serif;background:#f8f9fa;color:#212529;}
+a{color:#0054b2;text-decoration-thickness:1px;text-underline-offset:3px;}
+a:hover{text-decoration-thickness:2px;}
+button{font-family:inherit;cursor:pointer;}
+input{font-family:inherit;}
+

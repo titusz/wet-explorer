@@ -1,11 +1,11 @@
-/** Initialize the bundled ISCC implementation and apply the plan's text input contract. */
-import init, { gen_text_code_v0, type InitInput, text_clean } from "@iscc/wasm";
+/** Initialize ISCC and let its generator normalize the original decoded payload. */
+import init, { gen_text_code_v0, type InitInput } from "@iscc/wasm";
 
 let initialization: Promise<unknown> | undefined;
 
-/** Generate the planned 256-bit Text-Code from the full decoded record payload. */
+/** Generate a 256-bit Text-Code directly from the full decoded record payload. */
 function encodeText(text: string): string {
-  return gen_text_code_v0(text_clean(text), 256);
+  return gen_text_code_v0(text, 256);
 }
 
 /** Share initialization and permit an explicit retry after a failed asset load. */

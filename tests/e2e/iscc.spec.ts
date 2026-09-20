@@ -99,6 +99,39 @@ test("wasm waits for the visible panel, computes the reference within 500 ms, an
   expect(host.unexpected).toEqual([]);
 });
 
+test("raw view still computes the original payload with the generator's normalization", async ({
+  page,
+  context,
+}) => {
+  const host = await fixtureHost(context, member("℀ ℁ ℅ ℆ ℃ ℉ ㍑"));
+  let release = () => {};
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await context.route("**/*.wasm", async (route) => {
+    await held;
+    await route.continue();
+  });
+  try {
+    await page.goto(`./${fileRoute}`);
+    await expect(page.locator(".status-label")).toHaveText("Complete");
+    await page.getByRole("listbox").getByRole("option").first().click();
+    await expect(page.locator(".iscc-panel")).toHaveAttribute(
+      "data-state",
+      "computing",
+    );
+    await page.getByRole("button", { name: "Raw", exact: true }).click();
+    await expect(page.locator(".raw-record")).toContainText("WARC/1.0");
+    release();
+    await expect(page.locator(".iscc-code")).toHaveText(
+      "ISCC:EADQM55VRQDITOJQLH6D6RUPGWTK5C7FLHWJ35CRXERHLMIEZCUS3ZY",
+    );
+    expect(host.unexpected).toEqual([]);
+  } finally {
+    release();
+  }
+});
+
 test("navigation during wasm loading cannot display the previous record's code", async ({
   page,
   context,

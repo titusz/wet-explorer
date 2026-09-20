@@ -1,4 +1,4 @@
-/** Verify the planned Text-Code input contract with the real bundled WebAssembly. */
+/** Verify the payload Text-Code contract with the real bundled WebAssembly. */
 import { readFile } from "node:fs/promises";
 import { expect, test } from "vitest";
 import { fixtureRecords } from "../../tests/records.ts";
@@ -19,10 +19,10 @@ test("the recorded payload matches the supplied Python reference", async () => {
   );
 });
 
-test("Unicode compatibility symbols follow the plan's explicit text_clean step", async () => {
+test("Unicode compatibility symbols use the generator's normalization of the original payload", async () => {
   const encode = await loadTextCoder(binary);
   expect(encode("℀ ℁ ℅ ℆ ℃ ℉ ㍑")).toBe(
-    "ISCC:EADX76N5IGRGC4CISEWOB6WMDV34I4PTBN5ZES7RHOGQKDA2V3BLFNY",
+    "ISCC:EADQM55VRQDITOJQLH6D6RUPGWTK5C7FLHWJ35CRXERHLMIEZCUS3ZY",
   );
 });
 

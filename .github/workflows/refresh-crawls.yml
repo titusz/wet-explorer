@@ -1,0 +1,72 @@
+name: Refresh crawl catalogue
+on:
+  schedule:
+    - cron: "23 5 3 * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: refresh-crawls
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm ci
+      # This maintenance step is the only live data access in the workflow.
+      - run: npm run crawls:refresh
+      - name: Detect catalogue changes
+        id: catalogue
+        run: |
+          if git diff --quiet -- data/crawls-source.json public/crawls.json src/state/landing-crawls.json src/state/crawl-years.json; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.catalogue.outputs.changed == 'true'
+        run: |
+          npm run lint
+          npm run test:fast
+          npm run build
+          npm run check:budgets
+          npx playwright install --with-deps chromium firefox webkit
+          npm run test:e2e
+      - name: Open a catalogue update for review
+        if: steps.catalogue.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          branch="automation/crawls-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          git switch -c "$branch"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/crawls-source.json public/crawls.json src/state/landing-crawls.json src/state/crawl-years.json
+          git commit -m 'Refresh published crawl catalogue'
+          git push origin "$branch"
+          export CRAWL_BRANCH="$branch"
+          node --input-type=module <<'NODE'
+          import { writeFileSync } from 'node:fs';
+          import { join } from 'node:path';
+          writeFileSync(join(process.env.RUNNER_TEMP, 'crawl-pr.json'), JSON.stringify({
+            title: 'Refresh published crawl catalogue',
+            head: process.env.CRAWL_BRANCH,
+            base: process.env.BASE_BRANCH,
+            body: 'Update the archive snapshot and generated browser catalogue from Common Crawl’s published tables.\n\nValidation: lint, fast unit/worker tests, production build, asset budgets, and fixture browser tests passed in the refresh workflow. The exhaustive gzip split check remains part of release verification.'
+          }));
+          NODE
+          gh api --method POST "repos/$GITHUB_REPOSITORY/pulls" --input "$RUNNER_TEMP/crawl-pr.json" --jq '.html_url'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: catalogue-browser-test-results
+          path: test-results/
+          if-no-files-found: ignore

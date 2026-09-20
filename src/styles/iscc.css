@@ -1,0 +1,110 @@
+/* Compact Text-Code panel using the supplied border, typography, and status tokens. */
+iscc-panel {
+  display: block;
+}
+.iscc-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--wet-surface-alt);
+  border: 1px solid var(--wet-rule);
+}
+.iscc-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 12px / 16px var(--wet-font-detail);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--wet-text-muted);
+}
+.iscc-label > span {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  background: var(--wet-accent);
+}
+.iscc-code-row {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  border: 1px solid var(--wet-rule);
+}
+.iscc-code {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  font: 13px / 20px var(--wet-font-detail);
+  overflow-wrap: anywhere;
+}
+.iscc-code-row copy-button {
+  display: flex;
+  flex-shrink: 0;
+}
+.iscc-code-row .copy-button {
+  height: auto;
+  min-height: 44px;
+  border: 0;
+  border-left: 1px solid var(--wet-rule);
+  padding: 0 14px;
+}
+.iscc-note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--wet-text-muted);
+}
+.iscc-idle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.iscc-idle > p {
+  flex: 1;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--wet-text-muted);
+}
+.iscc-idle .secondary-action {
+  min-height: 36px;
+  padding: 6px 16px;
+}
+.iscc-computing {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--wet-text-muted);
+}
+.iscc-busy-track {
+  display: block;
+  width: 100%;
+  height: 4px;
+  overflow: hidden;
+  background: var(--wet-rule);
+}
+.iscc-busy-track > span {
+  display: block;
+  width: 38%;
+  height: 4px;
+  background: var(--wet-info);
+  animation: iscc-busy 1.2s linear infinite;
+}
+@keyframes iscc-busy {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(264%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .iscc-busy-track > span {
+    animation: none;
+  }
+}

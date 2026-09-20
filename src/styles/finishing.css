@@ -1,0 +1,224 @@
+/* Scoped filters, quiet summaries, visit shading, and optional local preferences. */
+first-visit-notice,
+return-position,
+filter-bar,
+file-summary {
+  display: block;
+}
+.first-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.first-notice button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: #212529;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .first-notice button {
+    width: 24px;
+    height: 24px;
+  }
+  .first-notice .ui-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+.return-position {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--wet-rule);
+}
+.return-position h2 {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  margin: 0 0 6px;
+}
+.return-position progress {
+  grid-column: 1 / -1;
+  display: block;
+  width: 100%;
+  height: 4px;
+  appearance: none;
+  border: 0;
+  background: var(--wet-track);
+}
+.return-position progress::-webkit-progress-bar {
+  background: var(--wet-track);
+}
+.return-position progress::-webkit-progress-value {
+  background: var(--wet-info);
+}
+.return-position progress::-moz-progress-bar {
+  background: var(--wet-info);
+}
+.return-position p {
+  color: var(--wet-text-muted);
+  font: 11px / 20px var(--wet-font-detail);
+}
+.return-position a {
+  flex-shrink: 0;
+}
+.filter-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px 8px;
+  border-bottom: 1px solid var(--wet-rule);
+}
+.filter-controls > input {
+  flex: 1;
+  min-width: 140px;
+}
+.filter-controls > input,
+.filter-controls select {
+  border: 1px solid var(--wet-rule);
+  background: var(--wet-surface);
+  color: var(--wet-text);
+  height: 34px;
+  border-radius: 0;
+  padding: 0 8px;
+  font: 12px var(--wet-font-ui);
+}
+.filter-controls select {
+  max-width: 140px;
+}
+.short-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--wet-text-muted);
+}
+.short-filter input {
+  accent-color: var(--wet-action);
+}
+.clear-filter {
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: var(--wet-action);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 12px;
+}
+.filter-controls .clear-filter {
+  margin-left: auto;
+}
+.stream-scope {
+  flex-wrap: wrap;
+  padding: 8px 20px;
+  gap: 4px 12px;
+}
+file-summary {
+  max-height: 35%;
+  overflow: auto;
+  flex-shrink: 0;
+}
+.file-summary {
+  border-top: 1px solid var(--wet-rule);
+  background: var(--wet-surface-alt);
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.file-summary h2 {
+  font-size: 16px;
+  line-height: 22px;
+  margin: 0;
+}
+.file-summary p {
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--wet-text-muted);
+}
+.summary-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 6px;
+}
+.summary-actions > * {
+  flex: 1;
+  min-width: 0;
+}
+.summary-actions .secondary-action {
+  padding: 8px;
+  font-size: 12px;
+  min-height: 36px;
+}
+.segment-cell,
+.file-cell {
+  position: relative;
+  overflow: hidden;
+}
+.cell-label {
+  position: relative;
+}
+.visit-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  appearance: none;
+  border-radius: 0;
+  background: transparent;
+  opacity: 0.45;
+  pointer-events: none;
+}
+.visit-fill::-webkit-progress-bar {
+  background: transparent;
+}
+.visit-fill::-webkit-progress-value {
+  background: var(--wet-info-subtle);
+}
+.visit-fill::-moz-progress-bar {
+  background: var(--wet-info-subtle);
+}
+.visited-dot {
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  background: var(--wet-info-subtle);
+}
+@media (max-width: 767px) {
+  .return-position {
+    flex-wrap: wrap;
+    padding: 16px;
+    gap: 12px;
+  }
+  .filter-controls {
+    padding: 10px 16px 8px;
+  }
+  .filter-controls > input {
+    min-width: 130px;
+  }
+  .filter-controls select {
+    max-width: 120px;
+  }
+  .file-summary {
+    padding: 12px 16px;
+  }
+  .segment-cell > small {
+    position: relative;
+  }
+}

@@ -14,8 +14,10 @@
     "lint": "biome check .",
     "format": "biome check --write .",
     "test": "vitest run",
+    "test:fast": "vitest run --exclude \"**/members.exhaustive.test.ts\"",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "smoke:live": "node scripts/live-smoke.ts",
     "fixtures": "node scripts/make-fixture.ts",
     "crawls:refresh": "node scripts/build-crawls.ts --refresh",
     "check:budgets": "node scripts/check-budgets.ts"

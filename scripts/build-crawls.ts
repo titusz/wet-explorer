@@ -55,4 +55,14 @@ await writeFile(
   new URL("../src/state/landing-crawls.json", import.meta.url),
   `${JSON.stringify(crawls.slice(0, 6), null, 2)}\n`,
 );
+const years = [...new Set(crawls.slice(6).map((crawl) => crawl.year))].map(
+  (year) => ({
+    year,
+    count: crawls.slice(6).filter((crawl) => crawl.year === year).length,
+  }),
+);
+await writeFile(
+  new URL("../src/state/crawl-years.json", import.meta.url),
+  `${JSON.stringify(years, null, 2)}\n`,
+);
 console.log(`Bundled ${crawls.length} crawls; latest ${crawls[0]?.id}.`);

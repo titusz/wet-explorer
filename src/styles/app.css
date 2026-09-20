@@ -38,6 +38,9 @@ a {
   background: var(--wet-header);
   color: white;
 }
+.app-header :focus-visible {
+  outline-color: var(--wet-info-subtle);
+}
 .wordmark {
   display: flex;
   align-items: center;
@@ -48,24 +51,40 @@ a {
   font-weight: 500;
 }
 .theme-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
   border: 1px solid #2c5187;
   color: white;
   background: transparent;
-  font-size: 24px;
+}
+.header-crawl {
+  margin-left: auto;
+  margin-right: 24px;
+  color: var(--wet-info-subtle);
+  font: 12px / 16px var(--wet-font-detail);
+  letter-spacing: 0.05em;
+}
+.theme-button .ui-icon {
+  width: 18px;
+  height: 18px;
 }
 .first-notice {
-  padding: 11px max(24px, calc((100% - 1200px) / 2));
+  padding: 8px max(24px, calc((100% - 1200px) / 2));
   background: var(--wet-caution);
   color: #212529;
   font-size: 14px;
+}
+.narrow-copy {
+  display: none;
 }
 .landing {
   width: min(100%, 1440px);
   margin: 0 auto;
   flex: 1;
-  padding: 32px max(24px, calc((100% - 1200px) / 2)) 64px;
+  padding: 32px max(24px, calc((100% - 1200px) / 2)) 0;
   display: grid;
   grid-template-columns: minmax(0, 680fr) minmax(0, 440fr);
   gap: 80px;
@@ -145,6 +164,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   min-height: 56px;
   background: var(--wet-action);
   border: 1px solid var(--wet-action);
@@ -152,6 +172,10 @@ h2 {
   font-size: 17px;
   font-weight: 500;
   text-decoration: none;
+}
+.primary-action .ui-icon {
+  width: 20px;
+  height: 20px;
 }
 .action-caption {
   display: flex;
@@ -195,6 +219,7 @@ h2 {
   color: inherit;
 }
 .app-footer {
+  min-height: 160px;
   padding: 32px max(24px, calc((100% - 1200px) / 2));
   background: var(--wet-surface);
   border-top: 1px solid var(--wet-rule);
@@ -218,6 +243,23 @@ h2 {
 .foundation-logo {
   object-fit: contain;
 }
+.dark-logo {
+  display: none;
+}
+:root[data-theme="dark"] .dark-logo {
+  display: block;
+}
+:root[data-theme="dark"] .light-logo {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dark-logo {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .light-logo {
+    display: none;
+  }
+}
 @media (max-width: 1279px) {
   .landing {
     gap: 32px;
@@ -230,34 +272,109 @@ h2 {
   }
 }
 @media (max-width: 767px) {
+  .header-crawl {
+    display: none;
+  }
   .app-header {
-    padding: 0 20px;
+    height: 48px;
+    padding: 0 16px;
   }
   .first-notice {
-    padding: 12px 20px;
+    padding: 10px 16px;
+    font-size: 13px;
+    line-height: 18px;
+    gap: 12px;
+  }
+  .wide-copy {
+    display: none;
+  }
+  .narrow-copy {
+    display: inline;
   }
   .landing {
     display: flex;
     flex-direction: column;
-    padding: 24px 20px 40px;
-    gap: 32px;
+    padding: 20px 16px 92px;
+    gap: 20px;
   }
-  h1 {
-    font-size: 32px;
-    line-height: 40px;
+  .landing-primary {
+    display: contents;
+  }
+  .intro {
+    order: 1;
+    gap: 12px;
+    padding-top: 12px;
+  }
+  .intro h1 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .intro p {
+    font-size: 15px;
+    line-height: 22px;
+  }
+  .landing .eyebrow {
+    font-size: 11px;
   }
   .crawl-card {
-    padding: 20px;
+    order: 2;
+    padding: 16px;
+    gap: 6px;
+  }
+  .crawl-card h2 {
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 10px;
   }
   .crawl-numbers {
     gap: 12px;
   }
   .crawl-numbers strong {
     font-size: 15px;
-    line-height: 24px;
+    line-height: 22px;
+  }
+  .crawl-numbers span {
+    font-size: 11px;
+  }
+  .crawl-numbers div {
+    gap: 2px;
+  }
+  .crawl-sidebar {
+    order: 3;
+  }
+  .crawl-option {
+    min-height: 48px;
+  }
+  .landing return-position {
+    order: 4;
+  }
+  .landing-actions {
+    order: 5;
+  }
+  .landing-actions > random-file {
+    position: fixed;
+    z-index: 4;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 16px;
+    border-top: 1px solid var(--wet-rule);
+    background: var(--wet-page);
+  }
+  .landing-actions .primary-action {
+    min-height: 52px;
+    font-size: 16px;
+    gap: 10px;
+  }
+  .landing-actions .primary-action .ui-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .action-caption > span {
+    display: none;
   }
   .app-footer {
     flex-direction: column;
-    padding: 24px 20px;
+    padding: 24px 16px 96px;
   }
 }

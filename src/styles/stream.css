@@ -1,0 +1,297 @@
+/* Stream geometry, fixed record rows, and status states from the supplied boards. */
+record-stream {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--wet-surface);
+  border-right: 1px solid var(--wet-rule);
+}
+record-row,
+stream-status-bar {
+  display: block;
+}
+.stream-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 520px) minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+wet-app:has(.stream-layout) {
+  height: 100dvh;
+}
+.stream-breadcrumb {
+  display: flex;
+  gap: 24px;
+  padding: 16px 32px;
+  background: var(--wet-surface);
+  border-bottom: 1px solid var(--wet-rule);
+  font-size: 13px;
+}
+.stream-breadcrumb > * {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stream-scope {
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--wet-text-muted);
+  border-bottom: 1px solid var(--wet-rule);
+}
+.record-viewport {
+  position: relative;
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+  overscroll-behavior: contain;
+  overflow-anchor: none;
+}
+.record-canvas {
+  position: relative;
+}
+.record-window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.record-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 52px;
+  padding: 0 20px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--wet-rule);
+  color: var(--wet-text);
+  animation: row-arrive var(--wet-motion-row) var(--wet-easing);
+}
+.row-title {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  text-align: start;
+}
+.row-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+  font: 11px / 16px var(--wet-font-detail);
+  letter-spacing: 0.05em;
+  color: var(--wet-text-muted);
+}
+.row-host {
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.row-size {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.row-length {
+  appearance: none;
+  width: 32px;
+  height: 4px;
+  flex-shrink: 0;
+  background: var(--wet-track);
+  border: 0;
+}
+.row-length::-webkit-meter-bar {
+  height: 4px;
+  border: 0;
+  border-radius: 0;
+  background: var(--wet-track);
+}
+.row-length::-webkit-meter-optimum-value {
+  background: var(--wet-text-muted);
+}
+.row-length::-moz-meter-bar {
+  background: var(--wet-text-muted);
+}
+.record-row.short {
+  color: var(--wet-text-muted);
+}
+.record-row.short .row-title {
+  font-weight: 400;
+}
+.record-row[aria-selected="true"] {
+  background: var(--wet-selected);
+  color: var(--wet-selected-text);
+}
+.record-row[aria-selected="true"] .row-meta {
+  color: inherit;
+}
+.record-viewport:focus-visible .record-row.active {
+  outline: 2px solid var(--wet-action);
+  outline-offset: -2px;
+}
+.record-viewport:focus-visible .record-row.active[aria-selected="true"] {
+  outline-color: var(--wet-selected-text);
+}
+.reader-placeholder {
+  padding: 64px 40px;
+  color: var(--wet-text-muted);
+}
+.reader-placeholder h1 {
+  font-size: 24px;
+  line-height: 32px;
+  margin-bottom: 12px;
+  color: var(--wet-text);
+}
+.stream-status {
+  --status-color: var(--wet-info);
+  min-height: 56px;
+  padding: 9px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background: var(--wet-surface-alt);
+  border-top: 1px solid var(--wet-rule);
+}
+.stream-status[data-state="paused"],
+.stream-status[data-waiting="true"] {
+  --status-color: var(--wet-caution);
+}
+.stream-status[data-state="complete"] {
+  --status-color: var(--wet-positive);
+}
+.stream-status[data-state="interrupted"] {
+  --status-color: var(--wet-accent);
+}
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--status-color);
+  flex-shrink: 0;
+}
+.status-label {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+}
+.status-caption {
+  min-width: 0;
+  flex: 1;
+  font: 11px / 16px var(--wet-font-detail);
+  color: var(--wet-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.compact-button {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 0 12px;
+  background: transparent;
+  border: 1px solid var(--wet-rule);
+  color: var(--wet-text);
+  font-size: 13px;
+}
+.compact-button.filled {
+  background: var(--wet-action);
+  border-color: var(--wet-action);
+  color: var(--wet-action-text);
+}
+.byte-progress {
+  display: block;
+  appearance: none;
+  height: 4px;
+  width: 100%;
+  border: 0;
+  background: var(--wet-track);
+  color: var(--status-color);
+}
+.byte-progress::-webkit-progress-bar {
+  background: var(--wet-track);
+}
+.byte-progress::-webkit-progress-value {
+  background: var(--status-color);
+}
+.byte-progress::-moz-progress-bar {
+  background: var(--status-color);
+}
+.busy-caption {
+  font-size: 13px;
+  color: var(--wet-text);
+}
+.row-skeleton {
+  height: 52px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--wet-rule);
+}
+.row-skeleton span {
+  height: 12px;
+  width: 62%;
+  background: var(--wet-skeleton);
+}
+.row-skeleton span + span {
+  height: 9px;
+  width: 34%;
+}
+.list-message {
+  padding: 24px 20px;
+  color: var(--wet-text-muted);
+}
+@keyframes row-arrive {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (max-width: 767px) {
+  .stream-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  record-stream {
+    flex: 1;
+    border-right: 0;
+  }
+  .stream-layout > .reader-placeholder {
+    display: none;
+  }
+  .stream-breadcrumb {
+    padding: 12px 20px;
+    gap: 12px;
+  }
+  .stream-breadcrumb .segment-crumb {
+    display: none;
+  }
+  .status-line {
+    flex-wrap: wrap;
+  }
+  .status-caption {
+    flex-basis: 160px;
+  }
+}

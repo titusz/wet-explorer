@@ -26,7 +26,7 @@ test("static landing works under a sub-path and strict CSP", async ({
     page.getByRole("region", { name: "Selected crawl" }),
   ).toContainText("August 2026");
   await expect(
-    page.getByRole("link", { name: "Open a random file" }),
+    page.getByRole("button", { name: "Open a random file" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Switch theme" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");

@@ -204,12 +204,17 @@ test("20,000-row list stays bounded and scrolls within the frame budget", async 
   );
   if (nativeMemory)
     console.log(
-      `Renderer resident memory: initial ${((initialMemory?.residentBytes ?? 0) / 1048576).toFixed(2)} MiB; loaded ${((loadedMemory?.residentBytes ?? 0) / 1048576).toFixed(2)} MiB; after scroll/GC ${(nativeMemory.residentBytes / 1048576).toFixed(2)} MiB across ${nativeMemory.processes.length} processes`,
+      `Renderer memory after scroll/GC: private ${nativeMemory.privateBytes === null ? "unavailable" : `${(nativeMemory.privateBytes / 1048576).toFixed(2)} MiB`}; resident ${(nativeMemory.residentBytes / 1048576).toFixed(2)} MiB across ${nativeMemory.processes.length} processes (initial resident ${((initialMemory?.residentBytes ?? 0) / 1048576).toFixed(2)} MiB; loaded ${((loadedMemory?.residentBytes ?? 0) / 1048576).toFixed(2)} MiB)`,
     );
   expect(Math.max(...durations)).toBeLessThanOrEqual(50);
   if (memory !== null) expect(memory).toBeLessThan(150 * 1024 * 1024);
-  if (nativeMemory)
-    expect(nativeMemory.residentBytes).toBeLessThan(150 * 1024 * 1024);
+  if (nativeMemory) {
+    expect(
+      nativeMemory.privateBytes,
+      "Private footprint must be measured",
+    ).not.toBeNull();
+    expect(nativeMemory.privateBytes).toBeLessThan(150 * 1024 * 1024);
+  }
   expect(host.unexpected).toEqual([]);
   expect(host.peak).toBe(1);
 });

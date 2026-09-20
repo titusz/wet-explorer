@@ -77,6 +77,9 @@ export async function rendererMemory(context: BrowserContext) {
           );
     return {
       processes,
+      privateBytes: processes.every((entry) => entry.privateBytes !== null)
+        ? processes.reduce((sum, entry) => sum + (entry.privateBytes ?? 0), 0)
+        : null,
       residentBytes: processes.reduce(
         (sum, entry) => sum + entry.residentBytes,
         0,

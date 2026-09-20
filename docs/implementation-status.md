@@ -11,7 +11,7 @@ The source requirements are in the local `cauldron/WET-Explorer-Implementation-P
 - [x] 4: Navigation, permanent links, direct fetch and compatibility path pass local acceptance. The approved catalogue starts with the compatible May 2017 format.
 - [x] 5: Persistence, scoped filters, summaries and brief states have local fixture coverage; see `docs/state-coverage.md` for the remaining release checks.
 - [x] 6: Lazy ISCC worker, reference-code verification, three panel states, full-code copy and failure recovery.
-- [ ] 7: Accessibility, measured budgets, three-engine CI, visual checks, docs and tagged deployment are verified. Monthly catalogue automation is configured and checked. Titusz's actual Safari application check remains.
+- [ ] 7: Accessibility, measured budgets, three-engine CI, visual checks, docs and tagged deployment are verified for v0.1.0. Monthly catalogue automation is configured and checked. The reported wide-screen Chrome layout correction still needs hosted verification and deployment; Safari-specific support is no longer required.
 
 ## Design questions
 
@@ -158,4 +158,10 @@ Hosted Chromium measures 119,406,592 private bytes (113.88 MiB), 234,299,392 res
 
 The `v0.1.0` release targets `f41079f`; its [deployment workflow](https://github.com/titusz/wet-explorer/actions/runs/35495746167) passes all 146 unit/worker and 134 browser checks again, then publishes the verified artifact. Pages serves `https://titusz.github.io/wet-explorer/` with HTTPS and release-tag access. All 20 deployed files match the artifact byte for byte. Complete live random-file/reader/Next/fresh-link journeys pass in Chrome 153.0.8010.36 and Firefox 155.0 on that published site; each fresh context makes one record request.
 
-The monthly catalogue workflow may create pull requests, with read-only default workflow permissions retained. Commit `4934468` preserves catalogue updates as draft PRs when validation fails, rather than losing updates that need fixture or screenshot review. The failed job remains failed; successful validation creates a ready PR. Actionlint, both offline payload-generation branches and [hosted follow-up verification](https://github.com/titusz/wet-explorer/actions/runs/35496183072) pass. Titusz chose to verify Safari personally; that application check is the remaining acceptance item.
+The monthly catalogue workflow may create pull requests, with read-only default workflow permissions retained. Commit `4934468` preserves catalogue updates as draft PRs when validation fails, rather than losing updates that need fixture or screenshot review. The failed job remains failed; successful validation creates a ready PR. Actionlint, both offline payload-generation branches and [hosted follow-up verification](https://github.com/titusz/wet-explorer/actions/runs/35496183072) pass.
+
+## Wide-screen layout correction
+
+Titusz removed Safari-specific support from scope and reported broken Chrome rendering on 20 September 2026. The original screenshot checks covered only 1440 and 390 px. Installed Chrome 153.0.8010.36 confirms that the published landing columns collapse to zero width at 2560 px and above: viewport-relative padding keeps growing inside a width-capped container. The landing page and pickers now cap their horizontal padding at 120 px, preserving the reference layout while keeping wide-screen columns readable. A regression written before the fix fails at the reported 2808 px width. The installed Chrome probe measures 680/440 px landing columns after the fix at 1440, 1920, 2560, 2808, 3440 and 3840 px. Hosted verification and published-site checks remain pending.
+
+All 23 focused browser journeys pass locally: 15 wide-screen cases across Chromium, Firefox and WebKit, plus eight Windows screenshot journeys without baseline changes. TypeScript, production build, Biome and whitespace checks pass. Gzip CSS is 7,150 bytes; JavaScript, font and wasm totals are unchanged and every asset budget passes.

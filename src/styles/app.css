@@ -95,7 +95,7 @@ a {
   width: min(100%, 1440px);
   margin: 0 auto;
   flex: 1;
-  padding: 32px max(24px, calc((100% - 1200px) / 2)) 0;
+  padding: 32px clamp(24px, calc((100% - 1200px) / 2), 120px) 0;
   display: grid;
   grid-template-columns: minmax(0, 680fr) minmax(0, 440fr);
   gap: 80px;

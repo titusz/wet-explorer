@@ -6,6 +6,8 @@ The supplied hand-off's 18 desktop/mobile boards were rendered locally with thei
 
 The application retains the supplied design tokens, Readex Pro and JetBrains Mono subsets, 680 px article measure, 17/27 px body text, 52 px record rows, dense desktop file grid, and mobile ranges of one hundred files. Desktop file cells fit above the compact footer at the reference width. Mobile primary actions remain fixed at the bottom with 52 px targets. The resume strip uses the approved records-plus-byte copy and a byte-progress bar.
 
+`responsive.spec.ts` checks the landing page and both pickers at 1920, 2560, 2808, 3440 and 3840 px across all three engines. It asserts readable, separated, centered columns, a visible primary action and contained file cells. This covers a gap in the original 1440/390 px screenshots: uncapped viewport-relative padding collapsed the columns on wide displays. The regression failed with a zero-width introduction at 2808 px before the padding fix. Installed Chrome 153.0.8010.36 reproduces that failure on v0.1.0 and preserves 680/440 px landing columns at all six measured widths from 1440 through 3840 px with the fix.
+
 ## Explained differences from the illustrations
 
 | Difference | Reason |

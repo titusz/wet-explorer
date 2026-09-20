@@ -51,7 +51,7 @@ Browser performance projects run separately from the default-engine functional p
 
 Interaction timing checks cover desktop and mobile control feedback, including a delayed network response; cached reading is also tested with the browser offline. An isolated metadata-retention test ensures that unused oversized headers can be released. [Memory investigation](docs/memory-investigation.md) records bounded metadata sharing, the passing local budgets, the Linux counter definition, and historical frame variability.
 
-Before release, explicitly run `npm run smoke:live` for the manual host check. It makes exactly one 1,799-byte ranged request, rejects redirects and full-file responses, and checks the decoded first line against the recorded reference. It never retries and is absent from automated workflows. Its automated tests use recorded local bytes. This command does not replace the manual core-path check in Chrome, Firefox and Safari.
+Before release, explicitly run `npm run smoke:live` for the manual host check. It makes exactly one 1,799-byte ranged request, rejects redirects and full-file responses, and checks the decoded first line against the recorded reference. It never retries and is absent from automated workflows. Its automated tests use recorded local bytes. This command does not replace the manual core-path check in Chrome and Firefox. Safari-specific support is outside the release requirements; existing WebKit fixture coverage remains in CI.
 
 `npm run crawls:refresh` reads Common Crawl's published archive tables and updates the checked-in catalogue. Ordinary builds use the local snapshot. The browser never contacts the catalogue's source during landing.
 

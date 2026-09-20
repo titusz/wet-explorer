@@ -144,7 +144,7 @@ wet-breadcrumb {
 .picker {
   width: min(100%, 1440px);
   margin: 0 auto;
-  padding: 32px max(24px, calc((100% - 1200px) / 2)) 64px;
+  padding: 32px clamp(24px, calc((100% - 1200px) / 2), 120px) 64px;
 }
 .picker-heading {
   max-width: 760px;

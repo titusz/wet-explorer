@@ -1,5 +1,13 @@
 [
   {
+    "id": "CC-MAIN-2026-39",
+    "label": "September 2026",
+    "year": 2026,
+    "pages": 2170000000,
+    "files": 100000,
+    "wetTiB": 5.89
+  },
+  {
     "id": "CC-MAIN-2026-34",
     "label": "August 2026",
     "year": 2026,
